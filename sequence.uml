@@ -1,0 +1,48 @@
+@startuml
+
+participant "Meta Auctioneer" as M
+participant "Auctioneer A" as A
+participant "Auctioneer B" as B
+participant "Auctioneer C" as C
+participant "Bidder" as X
+
+M -> X: StartAuctions
+M <- X: Register
+M -> X: InitializeBidder
+
+par Auction A
+
+A -> X: StartAuction
+loop
+	A -> X: CallForBids
+	A <- X: Bid
+	A -> X: InformBuy
+end
+
+else Auction B
+
+B -> X: StartAuction
+loop
+	B -> X: CallForBids
+	B <- X: Bid
+	B -> X: InformSell
+end
+
+else Auction C
+
+C -> X: StartAuction
+loop
+	C <- X: Offer
+	C -> X: CallForBids
+	C <- X: Bid
+	C -> X: InformBuy
+	C -> X: InformSell
+end
+end
+
+M -> X: EndAuction
+
+
+
+
+@enduml

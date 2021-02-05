@@ -1,0 +1,60 @@
+<h1>README</h1>
+
+<h2>About this Package</h2>
+
+<p>Use this project as a starting point for implementing your bidder agent. This project contains:</p>
+
+<ul>
+<li>a valid pom.xml file including the JIAC dependency and repository; feel free to change the project's name if you like, or add additional libraries you might need</li>
+<li>a sequence diagram showing the expected message exchange between auctioneer and bidder</li>
+<li>the complete auctioneed agent, including AgentBean and configuration; you can use those as reference for what the auctioneer does, and how certain things can be done in JIAC</li>
+<li>a very small stub for the bidder agent; basically just an empty file with some pointers where to start</li>
+<li>starter classes for both, auctioneer and bidder</li>
+<li>classes describing the different messages being exchanged between auctioneer and bidder</li>
+</ul>
+
+<p>You should not modify any of those classes (except for the bidder agent stub, of course), otherwise your agent will most likely not work correctly in the final competition</p>
+
+<h2>The Auction Protocol</h2>
+
+<p>The auction protocol is shown below.</p>
+
+<p><img src="sequence.png" alt="auction protocol sequence diagram" title="" /></p>
+
+<h3>Starting the Auction</h3>
+
+<ul>
+<li>all bidder agents should start before the auctioneer; they can start any time before, or even keep running for multiple auctions</li>
+<li>as soon as the auctioneer starts, it sends a <strong>StartAuction</strong> message to the specified message group</li>
+<li>upon receiving the StartAuction, the bidder knows the aucitoneer's message box address and can reply with a <strong>Register</strong> message, including it's own ID (the ID should include your group number)</li>
+<li>the auctioneer sends the <strong>InitializeBidder</strong> message including the initial wallet to the bidder</li>
+</ul>
+
+<h3>Bidding and Offering</h3>
+
+<ul>
+<li>at any time after the start of the auction, bidders can send <strong>Offer</strong> messages, offering one of their own resources for sale</li>
+<li>if there are more items to be sold (by the auctioneer itself, or from other bidders), the auctioneer sends a <strong>CallForBids</strong> to all bidders, including the type of resource, the reservation price, etc.</li>
+<li>if the bidder is interested in the item, it can respond with a <strong>Bid</strong></li>
+<li>after a fixed time, the auctioneer evaluates the bids and sends out <strong>InformBuy</strong> messages to each individual bidder, including whether the item was bought or not (but not by whom else) and at which price</li>
+<li>if the item was offered by another bidder, the auctioneer will also send an <strong>InformSell</strong> message to the seller</li>
+</ul>
+
+<h3>End of Auction</h3>
+
+<ul>
+<li>finally, the auctioneer will send an <strong>EndAuction</strong> message to each bidder, announcing the winner of the auction as a whole as well as their final Wallet</li>
+</ul>
+
+<h2>General Tipps and Advice</h2>
+
+<ul>
+<li>the auctioneer switches between different phases, e.g. for bidding, for evaluation, etc.; each of those phases lasts a certain amount of time; after that time is up, no more bids will be accepted until the next bidding phase</li>
+<li>different properties of the auctioneer can be set in the Spring configuration file, e.g. the number of items to sell, or the minimum offer for each item; you can change those parameter and see how your bidder reacts</li>
+<li>you can try to implement different bidder agents, following different strategies, and let them bid against each other</li>
+<li>if you do so, try to think of a way to separate the implementation of the auction protocol from the bidding logic, so that parts of the BidderBean can be reused</li>
+</ul>
+
+<h2>Final Competition</h2>
+
+<p>At the very end of the course, there will be a competition where you can pit your bidder agent agains the other groups' agents. For this, we will set up an auctioneer agent on one of our servers, to which you will have to connect. Detailled instructions will follow.</p>

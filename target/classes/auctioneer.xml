@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml" />
+	<import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml" />
+	
+	<import resource="classpath:gateway_settings.xml" />
+
+	<!-- Students: do NOT start the auctioneer for final competition! -->
+	<bean name="AuctioneerNode" parent="AotNode" scope="singleton">
+		<property name="logLevel" value="WARN" />
+		<property name="agents">
+			<list>
+				<ref bean="AuctioneerAgent" />
+
+				<ref bean="AuctionRunnerAgent" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="AuctionRunnerAgent" parent="NonBlockingAgent" scope="prototype">
+		<property name="agentBeans">
+			<list>
+				<bean name="AuctionRunnerBean" class="de.dailab.jiactng.aot.auction.server.AuctionRunnerBean" scope="prototype">
+					<property name="logLevel" value="INFO" />
+					<property name="executionInterval" value="60000" />
+
+					<property name="randomSeed" value="12345" />
+					<property name="secretToken" value="nottheactualsecrettoken" />
+					<property name="numberOfAuctions" value="2" />
+<!-- 					<property name="auctionStartMinutes" value="15" /> -->
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="AuctioneerAgent" parent="NonBlockingAgent" scope="prototype">
+		<property name="agentBeans">
+			<list>
+				<bean name="AuctioneerMetaBean" class="de.dailab.jiactng.aot.auction.server.AuctioneerMetaBean" scope="prototype">
+					<property name="logLevel" value="INFO" />
+					<property name="executionInterval" value="2000" />
+					
+					<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+					<property name="auctioneerId" value="0" />
+					
+					<property name="extraRoundsB" value="40" />
+					<property name="extraRoundsC" value="20" />
+					<property name="initialJKcount" value="5" />
+					<property name="initialBalance" value="10000" />
+					<property name="secretToken" value="nottheactualsecrettoken" />
+					<property name="startMessage" value="aot-test-auction" />
+				</bean>
+				
+				<ref bean="AuctioneerABean" />
+				<ref bean="AuctioneerBBean" />
+				<ref bean="AuctioneerCBean" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="AuctioneerABean" class="de.dailab.jiactng.aot.auction.server.AuctioneerABean" scope="prototype">
+		<property name="logLevel" value="INFO" />
+		<property name="executionInterval" value="1000" />
+		
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="auctioneerId" value="1" />
+
+		<property name="presetItems" value="GF CBBA FBCC BA FBA DC CAGA ACDG BDA CGC CF BD DAB EAGB ABAD BACB CDAB AG DAAC DC BDDA AGGA CDG AF ACB ADF CCB DBBD AAGB AA AG BBFA AA AG BEE DA GAB ADBB CDCA FACC BDB BFB BB DDD BBC BGDA ACDB CCA CG GABD AE ADAF AAF GGAA AC DCFG BAB BDB DB EECA ADAC GCB BF BD CB BCBD FDD BB AAG CE CB AA DBAB GBF BBD CA DFB DE AGA DBAD ABCB BBB DAAA CBB DEB CBGG BB EAB BBCC BA AB AB ABD FBD CDA BCCB BBA EBAA BBF AADA" />
+
+		<property name="randomItemsBundleNum" value="100" />
+		<property name="randomItemsMinBundleSize" value="2" />
+		<property name="randomItemsMaxBundleSize" value="4" />
+		<property name="reservationPrice" value="0" />
+	</bean>
+
+	<bean name="AuctioneerBBean" class="de.dailab.jiactng.aot.auction.server.AuctioneerBBean" scope="prototype">
+		<property name="logLevel" value="INFO" />
+		<property name="executionInterval" value="1000" />
+
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="auctioneerId" value="2" />
+
+		<property name="priceIncrease" value="5.0" />
+		<property name="priceDecrease" value="5.0" />
+		<property name="maxInitPriceDeviation" value="0.5" />
+	</bean>
+
+	<bean name="AuctioneerCBean" class="de.dailab.jiactng.aot.auction.server.AuctioneerCBean" scope="prototype">
+		<property name="logLevel" value="INFO" />
+		<property name="executionInterval" value="1000" />
+		
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="auctioneerId" value="3" />
+	</bean>
+
+</beans>

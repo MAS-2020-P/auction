@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.dailab.jiactng.lehre</groupId>
+	<artifactId>jiac-aot-auction</artifactId>
+	<version>1.1.0</version>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.dailab.jiactng</groupId>
+			<artifactId>agentCore</artifactId>
+			<version>5.2.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>de.dailab.jiactng.basicServices</groupId>
+			<artifactId>webServer</artifactId>
+			<version>5.2.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>generate start scripts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<repositoryLayout>flat</repositoryLayout>
+							<programs>
+								<program>
+									<mainClass>de.dailab.jiactng.aot.auction.StartGateway</mainClass>
+									<name>Start_Gateway</name>
+								</program>
+								<program>
+									<mainClass>de.dailab.jiactng.aot.auction.StartAuctioneer</mainClass>
+									<name>Start_Auctioneer</name>
+								</program>
+								<program>
+									<mainClass>de.dailab.jiactng.aot.auction.StartBidder</mainClass>
+									<name>Start_Bidder</name>
+								</program>
+								<program>
+									<mainClass>de.dailab.jiactng.aot.auction.StartObserver</mainClass>
+									<name>Start_Observer</name>
+								</program>
+								<program>
+									<mainClass>de.dailab.jiactng.aot.auction.StartNode</mainClass>
+									<name>Start_Node</name>
+								</program>
+							</programs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>dai-open</id>
+			<name>DAI Open Repository</name>
+			<url>http://repositories.dai-labor.de/extern/content/repositories/dai-open/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+</project>

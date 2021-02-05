@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<import resource="classpath:de/dailab/jiactng/agentcore/conf/AgentNode.xml" />
+	<import resource="classpath:de/dailab/jiactng/agentcore/conf/Agent.xml" />
+	
+	<import resource="classpath:de/dailab/jiactng/basicservices/webserver/conf/webserver.xml" />
+	
+	<import resource="classpath:gateway_settings.xml" />
+
+	<bean name="ObserverNode" parent="AotNode" scope="singleton">
+		<property name="logLevel" value="WARN" />
+    	<property name="agentNodeBeans">
+    		<list merge="true">
+    			<ref bean="WebServer" />
+    		</list>
+    	</property>
+		<property name="agents">
+			<list>
+				<ref bean="AuctionObserverAgent" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="AuctionObserverAgent" parent="NonBlockingAgent" scope="prototype">
+		<property name="agentBeans">
+			<list>
+				<bean name="AuctionObserverBean" class="de.dailab.jiactng.aot.auction.server.AuctionObserverBean" scope="prototype">
+					<property name="logLevel" value="INFO" />
+					<property name="executionInterval" value="60000"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

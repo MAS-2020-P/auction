@@ -1,0 +1,29 @@
+CHANGES IN NEW VERSION
+----------------------
+
+* changed IP in Gateway configuration files
++ added AuctionsID to StartAuctions message
+* some small fixes and extensions in the auctioneer agent
+
+
+WHAT TO OBSERVE FOR FINAL COMPETITION
+-------------------------------------
+
+* IMPORTANT: Make sure that your bidder agents use a unique and consistent groupToken in ALL auctions. You can come up with your own groupToken in relation to your group number, or just generate any random string and send that string to the course staff. Your groupToken is a SECRET, do NOT share your groupToken with other groups! The purpose of the group token is to prevent other groups from impersonating you.
+
+* You can use different bidderIDs in different auctions (e.g. to identify different bidding strategies), but throughout one set of auctions, the bidder ID must NOT change.
+
+* IMPORTANT: Due to a recently discovered bug, the initial StartAuctions message can be delivered more than once. Your code has to be able to handle this. For this reason, we added the `auctionsID` field to the StartAuctions message so you can detect which messages are duplicates and only answer to the first one. If you Register more than once to the same auction, you may be disqualified from that auction! Other messages should not be affected.
+
+* For connecting to the auctioneer agent, change the "parent" of the "AotNode" to "AotGatewayNode" in the gateway_settings.xml configuration file. You also still have to join the message group (same as before, for testing locally).
+
+* The auctioneer agent will be started by us and connect with your bidder agents via a gateway server. During the competition, DO NOT start your own auctioneer agent in the gateway group!
+
+* New auctions will start in regular intervals. All bidder agents that are running at that time will participate in that auction. You can take part in as many auctions as you like.
+
+* There will never be more than one auction running at the same time.
+
+* You can see the (public) state of the currently running auction at http://130.149.154.8:8080/auctionobserver/
+
+* The auctioneer server is already running and you can connect to it and see if everything works out correctly (and, possibly, also how you compare to other bidders). The actual, "graded" auctions will start at a slightly later time.
+
