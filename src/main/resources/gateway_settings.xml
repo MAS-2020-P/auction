@@ -8,8 +8,8 @@
 
 	<!-- change this to either test locally or to connect to the gateway -->
 	<!-- for testing, use NodeWithJMX, for final competition, use AotGatewayNode -->
-    <bean name="AotNode" parent="NodeWithJMX" abstract="true" />
-<!--     <bean name="AotNode" parent="AotGatewayNode" abstract="true" /> -->
+    <!--  <bean name="AotNode" parent="NodeWithJMX" abstract="true" /> -->
+    <bean name="AotNode" parent="AotGatewayNode" abstract="true" />
 
     <bean name="AotGatewayNode" parent="NodeWithJMX" abstract="true">
         <property name="agentNodeBeans">
