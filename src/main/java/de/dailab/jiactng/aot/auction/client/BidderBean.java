@@ -69,23 +69,21 @@ public class BidderBean extends AbstractAgentBean {
 	double initialAAvalue = 0;
 
 
-	public void execute() {
+	public void doStart() {
+		memory.attach(new MessageObserver(this), new JiacMessage());
 
-		switch (phase) {
-			case STARTING:
-				// Join the message group
-				invokeSimple(ICommunicationBean.ACTION_JOIN_GROUP, CommunicationAddressFactory.createGroupAddress(messageGroup));
-				this.memory.attach(new MessageObserver(this), new JiacMessage());
-				ItemPrices = new HashMap<>();
-				ItemPrices.put(Resource.A, (int) 200);
-				ItemPrices.put(Resource.B, (int) 50);
-				ItemPrices.put(Resource.C, (int) 300);
-				ItemPrices.put(Resource.D, (int) 300);
-				ItemPrices.put(Resource.E, (int) 200);
-				ItemPrices.put(Resource.F, (int) 100);
-				ItemPrices.put(Resource.G, (int) 0);
-				ItemPrices.put(Resource.J, (int) 200);
-				ItemPrices.put(Resource.K, (int) 200);
+		invokeSimple(ICommunicationBean.ACTION_JOIN_GROUP, CommunicationAddressFactory.createGroupAddress(messageGroup));
+
+		ItemPrices = new HashMap<>();
+		ItemPrices.put(Resource.A, (int) 200);
+		ItemPrices.put(Resource.B, (int) 50);
+		ItemPrices.put(Resource.C, (int) 300);
+		ItemPrices.put(Resource.D, (int) 300);
+		ItemPrices.put(Resource.E, (int) 200);
+		ItemPrices.put(Resource.F, (int) 100);
+		ItemPrices.put(Resource.G, (int) 0);
+		ItemPrices.put(Resource.J, (int) 200);
+		ItemPrices.put(Resource.K, (int) 200);
 
 
 				/*
@@ -100,38 +98,45 @@ public class BidderBean extends AbstractAgentBean {
 
 
 
-				bundles = new LinkedList<Bundle>() {{
-						// 50
-						add(new Bundle(Arrays.asList(Resource.B, Resource.B), 50));
-						//100
-						add(new Bundle(Arrays.asList(Resource.F, Resource.F), 100));
-						//200
-						add(new Bundle(Arrays.asList(Resource.A, Resource.A), 200));
-						add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.F), 200));
-						add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.B), 200));
-						add(new Bundle(Arrays.asList(Resource.A, Resource.J, Resource.K), 200));
-						//300
-						add(new Bundle(Arrays.asList(Resource.F, Resource.J, Resource.K), 300));
-						add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.A), 300));
-						//400
-						add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.F), 400));
-						add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.A, Resource.A), 400));
-						//600
-						add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.D, Resource.D, Resource.B, Resource.B), 600));
-						//800
-						add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.D, Resource.D, Resource.A, Resource.A), 800));
-						add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.E, Resource.F), 800));
-						//1200
-						add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.C, Resource.D, Resource.D, Resource.D), 1200));
-						//1400
-						add(new Bundle(Arrays.asList(Resource.A, Resource.B, Resource.C, Resource.D, Resource.E, Resource.F, Resource.J, Resource.K), 1400));
-						//1600
-						add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.E, Resource.E, Resource.F), 1600));
+		bundles = new LinkedList<Bundle>() {{
+			// 50
+			add(new Bundle(Arrays.asList(Resource.B, Resource.B), 50));
+			//100
+			add(new Bundle(Arrays.asList(Resource.F, Resource.F), 100));
+			//200
+			add(new Bundle(Arrays.asList(Resource.A, Resource.A), 200));
+			add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.F), 200));
+			add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.B), 200));
+			add(new Bundle(Arrays.asList(Resource.A, Resource.J, Resource.K), 200));
+			//300
+			add(new Bundle(Arrays.asList(Resource.F, Resource.J, Resource.K), 300));
+			add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.A), 300));
+			//400
+			add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.F), 400));
+			add(new Bundle(Arrays.asList(Resource.A, Resource.A, Resource.A, Resource.A), 400));
+			//600
+			add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.D, Resource.D, Resource.B, Resource.B), 600));
+			//800
+			add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.D, Resource.D, Resource.A, Resource.A), 800));
+			add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.E, Resource.F), 800));
+			//1200
+			add(new Bundle(Arrays.asList(Resource.C, Resource.C, Resource.C, Resource.D, Resource.D, Resource.D), 1200));
+			//1400
+			add(new Bundle(Arrays.asList(Resource.A, Resource.B, Resource.C, Resource.D, Resource.E, Resource.F, Resource.J, Resource.K), 1400));
+			//1600
+			add(new Bundle(Arrays.asList(Resource.E, Resource.E, Resource.E, Resource.E, Resource.E, Resource.F), 1600));
 
-					}};
+		}};
 
-				Collections.reverse(bundles);
+		Collections.reverse(bundles);
 
+	}
+
+	public void execute() {
+
+		switch (phase) {
+			case STARTING:
+				System.out.println("We are starting");
 				break;
 
 			case STARTED:
@@ -185,20 +190,20 @@ public class BidderBean extends AbstractAgentBean {
 					c_addr = message.getSender();
 			}
 		} else if(message.getPayload() instanceof CallForBids) {
-			System.out.println("Got message: " + message.getPayload());
+			//System.out.println("Got message: " + message.getPayload());
 			ProcessCall((CallForBids) message.getPayload(), message.getSender());
 		} else if(message.getPayload() instanceof InformBuy) {
-			System.out.println("We got bundle: " + message.getPayload());
 			InformBuy inform = (InformBuy) message.getPayload();
 			if (inform.getType() == InformBuy.BuyType.WON) {
+				System.out.println("We got bundle: " + message.getPayload());
 				wallet.updateCredits(-inform.getPrice());
 				wallet.add(inform.getBundle());
 				System.out.println("Remaining credits in wallet: " + wallet.getCredits());
 			}
 		} else if(message.getPayload() instanceof InformSell) {
-			System.out.println("We sold bundle: " + message.getPayload());
 			InformSell inform = (InformSell) message.getPayload();
 			if (inform.getType() == InformSell.SellType.SOLD) {
+				System.out.println("We sold bundle: " + message.getPayload());
 				wallet.updateCredits(inform.getPrice());
 				wallet.remove(inform.getBundle());
 				System.out.println("Remaining credits in wallet: " + wallet.getCredits());
@@ -251,7 +256,7 @@ public class BidderBean extends AbstractAgentBean {
 					for (Bundle b : bundles) {
 						if (b.parts.equals(call.getBundle())) {
 							betterBundle = false;
-							break;
+							continue;
 						}
 						if (b.buildable) {
 							break;

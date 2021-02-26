@@ -44,7 +44,7 @@
 					<property name="logLevel" value="INFO" />
 					<property name="executionInterval" value="2000" />
 					
-					<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+					<property name="messageGroup" value="de.dailab.jiactng.aot.auction.p" />
 					<property name="auctioneerId" value="0" />
 					
 					<property name="extraRoundsB" value="40" />
@@ -66,7 +66,7 @@
 		<property name="logLevel" value="INFO" />
 		<property name="executionInterval" value="1000" />
 		
-		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction.p" />
 		<property name="auctioneerId" value="1" />
 
 		<property name="presetItems" value="GF CBBA FBCC BA FBA DC CAGA ACDG BDA CGC CF BD DAB EAGB ABAD BACB CDAB AG DAAC DC BDDA AGGA CDG AF ACB ADF CCB DBBD AAGB AA AG BBFA AA AG BEE DA GAB ADBB CDCA FACC BDB BFB BB DDD BBC BGDA ACDB CCA CG GABD AE ADAF AAF GGAA AC DCFG BAB BDB DB EECA ADAC GCB BF BD CB BCBD FDD BB AAG CE CB AA DBAB GBF BBD CA DFB DE AGA DBAD ABCB BBB DAAA CBB DEB CBGG BB EAB BBCC BA AB AB ABD FBD CDA BCCB BBA EBAA BBF AADA" />
@@ -81,7 +81,7 @@
 		<property name="logLevel" value="INFO" />
 		<property name="executionInterval" value="1000" />
 
-		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction.p" />
 		<property name="auctioneerId" value="2" />
 
 		<property name="priceIncrease" value="5.0" />
@@ -93,7 +93,7 @@
 		<property name="logLevel" value="INFO" />
 		<property name="executionInterval" value="1000" />
 		
-		<property name="messageGroup" value="de.dailab.jiactng.aot.auction" />
+		<property name="messageGroup" value="de.dailab.jiactng.aot.auction.p" />
 		<property name="auctioneerId" value="3" />
 	</bean>
 
